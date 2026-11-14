@@ -35,3 +35,31 @@ bool Rational::operator>(const Rational& rhs) const noexcept {
     return (static_cast<std::int64_t>(num_)*rhs.den() > static_cast<std::int64_t>(den_)*rhs.num());} 
 bool Rational::operator>=(const Rational& rhs) const noexcept {
     return (*this>rhs || *this == rhs);}  
+
+Rational& Rational::operator+=(const Rational& rhs) noexcept {
+    num_ = num_*rhs.den() + rhs.num()*den_;
+    den_ = den_*rhs.den();
+    Normalize();
+    return *this;
+}
+
+Rational& Rational::operator-=(const Rational& rhs) noexcept {
+    num_ = num_*rhs.den() - rhs.num()*den_;
+    den_ = den_*rhs.den();
+    Normalize();
+    return *this;
+}
+
+Rational& Rational::operator*=(const Rational& rhs) noexcept {
+    num_ = num_*rhs.num();
+    den_ = den_*rhs.den();
+    Normalize();
+    return *this;
+}
+
+Rational& Rational::operator/=(const Rational& rhs) noexcept {
+    num_ = num_*rhs.den();
+    den_ = den_*rhs.num();
+    Normalize();
+    return *this;
+}
