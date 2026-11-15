@@ -101,3 +101,15 @@ TEST_CASE("Insertion and removal") {
     array.remove(0);
     checkArray(array, {});
 }
+
+TEST_CASE("Invalid insertion and removal preserve the array") {
+    ArrayD array{2};
+    array[0] = 4;
+    array[1] = 7;
+
+    CHECK_THROWS_AS(array.insert(-1, 9), std::invalid_argument);
+    CHECK_THROWS_AS(array.insert(array.size() + 1, 9), std::invalid_argument);
+    CHECK_THROWS_AS(array.remove(-1), std::invalid_argument);
+    CHECK_THROWS_AS(array.remove(array.size()), std::invalid_argument);
+    checkArray(array, {4, 7});
+}
