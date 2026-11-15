@@ -49,3 +49,24 @@ TEST_CASE("Resize preserves existing elements and zeroes new ones") {
     array.resize(0);
     checkArray(array, {});
 }
+
+TEST_CASE("Copies own their elements") {
+    ArrayD original{2};
+    original[0] = 4;
+    original[1] = 7;
+
+    ArrayD copy{original};
+    copy[0] = 9;
+    checkArray(copy, {9, 7});
+    checkArray(original, {4, 7});
+
+    ArrayD assigned;
+    CHECK(&(assigned = original) == &assigned);
+    checkArray(assigned, {4, 7});
+    assigned[1] = 12;
+    checkArray(original, {4, 7});
+
+    const ArrayD& same = assigned;
+    CHECK(&(assigned = same) == &assigned);
+    checkArray(assigned, {4, 12});
+}
