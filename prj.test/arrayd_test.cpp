@@ -31,3 +31,21 @@ TEST_CASE("Constructors and index access") {
     CHECK_THROWS_AS(static_cast<void>(array[array.size()]), std::invalid_argument);
     CHECK_THROWS_AS(static_cast<void>(empty[0]), std::invalid_argument);
 }
+
+TEST_CASE("Resize preserves existing elements and zeroes new ones") {
+    ArrayD array{2};
+    array[0] = 4;
+    array[1] = 7;
+
+    array.resize(4);
+    checkArray(array, {4, 7, 0, 0});
+    array.resize(1);
+    checkArray(array, {4});
+    array.resize(3);
+    checkArray(array, {4, 0, 0});
+
+    CHECK_THROWS_AS(array.resize(-1), std::invalid_argument);
+    checkArray(array, {4, 0, 0});
+    array.resize(0);
+    checkArray(array, {});
+}
