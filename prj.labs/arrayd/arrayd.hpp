@@ -23,6 +23,10 @@ public:
     [[nodiscard]] float& operator[](const std::ptrdiff_t idx);
     [[nodiscard]] float operator[](const std::ptrdiff_t idx) const;
 
+    void insert(const std::ptrdiff_t idx, const float val);
+
+    void remove(const std::ptrdiff_t idx);
+
 private:
     std::ptrdiff_t capacity_ = 0;  //!< размер буффера
     std::ptrdiff_t size_ = 0;      //!< число элементов в массиве
