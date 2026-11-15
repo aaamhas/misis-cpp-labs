@@ -70,3 +70,16 @@ TEST_CASE("Copies own their elements") {
     CHECK(&(assigned = same) == &assigned);
     checkArray(assigned, {4, 12});
 }
+
+TEST_CASE("Copying and assigning an empty array") {
+    const ArrayD empty;
+
+    ArrayD copy{empty};
+    checkArray(copy, {});
+
+    ArrayD assigned{2};
+    assigned = empty;
+    checkArray(assigned, {});
+    assigned.insert(0, 5);
+    checkArray(assigned, {5});
+}
