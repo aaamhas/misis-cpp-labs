@@ -83,3 +83,21 @@ TEST_CASE("Copying and assigning an empty array") {
     assigned.insert(0, 5);
     checkArray(assigned, {5});
 }
+
+TEST_CASE("Insertion and removal") {
+    ArrayD array;
+    array.insert(0, 20);
+    array.insert(0, 10);
+    array.insert(array.size(), 40);
+    array.insert(2, 30);
+    checkArray(array, {10, 20, 30, 40});
+
+    array.remove(1);
+    checkArray(array, {10, 30, 40});
+    array.remove(0);
+    checkArray(array, {30, 40});
+    array.remove(array.size() - 1);
+    checkArray(array, {30});
+    array.remove(0);
+    checkArray(array, {});
+}
