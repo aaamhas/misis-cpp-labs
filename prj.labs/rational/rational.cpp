@@ -57,9 +57,35 @@ Rational& Rational::operator*=(const Rational& rhs) noexcept {
     return *this;
 }
 
-Rational& Rational::operator/=(const Rational& rhs) noexcept {
-    num_ = num_*rhs.den();
-    den_ = den_*rhs.num();
+Rational& Rational::operator/=(const Rational& rhs) {
+    if (rhs.num() == 0){
+        throw std::invalid_argument("Division by zero");
+    }
+    std::int32_t a = num_*rhs.den();
+    std::int32_t b = den_*rhs.num();
+    num_ = a;
+    den_ = b;
     Normalize();
     return *this;
 }
+
+Rational& Rational::operator+=(const int32_t rhs) noexcept { return operator+=(Rational(rhs)); };
+Rational& Rational::operator-=(const int32_t rhs) noexcept { return operator-=(Rational(rhs)); };
+Rational& Rational::operator*=(const int32_t rhs) noexcept { return operator*=(Rational(rhs)); };
+Rational& Rational::operator/=(const int32_t rhs) { return operator/=(Rational(rhs)); };
+
+
+Rational operator+(const Rational& lhs, const Rational& rhs) noexcept { return Rational{ lhs } += rhs; }
+Rational operator-(const Rational& lhs, const Rational& rhs) noexcept { return Rational{ lhs } -= rhs; }
+Rational operator*(const Rational& lhs, const Rational& rhs) noexcept { return Rational{ lhs } *= rhs; }
+Rational operator/(const Rational& lhs, const Rational& rhs) { return Rational{lhs} /= rhs; }
+
+Rational operator+(const Rational& lhs, const int32_t rhs) noexcept { return Rational{ lhs } += rhs; }
+Rational operator-(const Rational& lhs, const int32_t rhs) noexcept { return Rational{ lhs } -= rhs; };
+Rational operator*(const Rational& lhs, const int32_t rhs) noexcept { return Rational{ lhs } *= rhs; };
+Rational operator/(const Rational& lhs, const int32_t rhs) { return Rational{ lhs } /= rhs; }
+
+Rational operator+(const int32_t lhs, const Rational& rhs) noexcept { return operator+(rhs, lhs); }
+Rational operator-(const int32_t lhs, const Rational& rhs) noexcept { return Rational{lhs} -= rhs; }
+Rational operator*(const int32_t lhs, const Rational& rhs) noexcept { return operator*(rhs, lhs); }
+Rational operator/(const int32_t lhs, const Rational& rhs) { return Rational{lhs} /= rhs; }
