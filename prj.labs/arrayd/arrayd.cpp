@@ -3,12 +3,14 @@
 #include <stdexcept>
 #include <utility>
 
-ArrayD::ArrayD(const ArrayD& src) 
+ArrayD::ArrayD(const ArrayD& src)
     : capacity_(src.size_)
-    , size_(capacity_)
-    , data_(new float[size_]) {
+    , size_(capacity_) {
+    if (size_ > 0) {
+        data_ = new float[size_];
         std::memcpy(data_, src.data_, size_ * sizeof(*data_));
     }
+}
 
 ArrayD::ArrayD(const std::ptrdiff_t size)
     : capacity_(size)
@@ -23,10 +25,12 @@ ArrayD::~ArrayD() {
     delete[] data_;
 }
 
-ArrayD& ArrayD::operator=(const ArrayD& rhs){
+ArrayD& ArrayD::operator=(const ArrayD& rhs) {
     if (this != &rhs) {
         resize(rhs.size_);
-        std::memcpy(data_, rhs.data_, size_ * sizeof(*data_));
+        if (size_ > 0) {
+            std::memcpy(data_, rhs.data_, size_ * sizeof(*data_));
+        }
     }
     return *this;
 }
