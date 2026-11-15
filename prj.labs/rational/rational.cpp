@@ -1,6 +1,8 @@
 #include "rational.hpp"
 #include <stdexcept>
 #include <numeric>
+#include <ostream>
+#include <istream>
 
 Rational::Rational(const std::int32_t num, const std::int32_t den)
   : num_(num), den_(den) {
@@ -89,3 +91,26 @@ Rational operator+(const int32_t lhs, const Rational& rhs) noexcept { return ope
 Rational operator-(const int32_t lhs, const Rational& rhs) noexcept { return Rational{lhs} -= rhs; }
 Rational operator*(const int32_t lhs, const Rational& rhs) noexcept { return operator*(rhs, lhs); }
 Rational operator/(const int32_t lhs, const Rational& rhs) { return Rational{lhs} /= rhs; }
+
+std::ostream& operator<<(std::ostream& ostrm, const Rational& rhs) noexcept {
+    ostrm<<rhs.num()<<'/'<<rhs.den();
+    return ostrm;}
+
+std::istream& operator>>(std::istream& istrm, Rational& rhs) noexcept {
+    std::int32_t num{};
+    std::int32_t den{};
+    char slash{};
+
+    try {
+        if (!(istrm >> num >> slash) || slash != '/' ||
+            !(istrm >> den) || den == 0) {
+            istrm.setstate(std::ios::failbit);
+            return istrm;
+        }
+
+        rhs = Rational{num, den};
+    } catch (...) {
+    }
+
+    return istrm;
+}
