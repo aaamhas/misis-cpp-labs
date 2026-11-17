@@ -10,3 +10,7 @@ add_test(NAME rational_test COMMAND rational_test)
 add_executable(arrayd_test arrayd_test.cpp)
 target_link_libraries(arrayd_test PRIVATE arrayd)
 add_test(NAME arrayd_test COMMAND arrayd_test)
+
+add_executable(stacka_test stacka_test.cpp)
+target_link_libraries(stacka_test PRIVATE stacka)
+add_test(NAME stacka_test COMMAND stacka_test)
